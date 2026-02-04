@@ -1,0 +1,12 @@
+.ctrl-btn-container {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    max-width: 2065px;
+}
+.ctrl-btn {
+  display: flex;
+  width: 100px;
+  height: 57px;
+  border-radius: 39px;
+}
