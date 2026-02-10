@@ -84,7 +84,7 @@ const GeminiAgent = ({ muteZoomAudio }) => {
         const model = 'gemini-2.5-flash-native-audio-preview-12-2025';
         const config = {
             responseModalities: [Modality.AUDIO],
-            outputAudioTranscription: {},
+            outputAudioTranscription: {}
         };
 
         try {
@@ -109,12 +109,11 @@ const GeminiAgent = ({ muteZoomAudio }) => {
                             }
                             else if ('outputTranscription' in message.serverContent) {
                                 console.log("OUTPUT TRANSCRIPTION", message.serverContent.outputTranscription);
+                                // setResponseLog(prevResponses => [...prevResponses, message.serverContent.outputTranscription.text]);
                             }
                             else if ('generationComplete' in message.serverContent) {
                                 const el = document.getElementById("chat-window");
                                 if (el) el.scrollTop = el.scrollHeight;
-                                
-                                setResponseLog(prevResponses => [...prevResponses, "this is a placeholder message"]);
                                 setAudioReady(true);
                             }
                         }
