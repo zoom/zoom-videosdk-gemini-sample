@@ -28,7 +28,7 @@ To get started, clone the repo:
 
 3. Use this command to generate your JWT Token on the console
    
-   `node generateToken.ts [0 for participant or 1 for host]`
+   `node generateToken.js [sessionname]`
 
 4. Run the app:
    `npm run start` or `bun start`
