@@ -22,6 +22,7 @@ const CustomUIpage = () => {
     const [videoLoader, setVideoLoader] = useState(false);
     const [isAudioStarted, setIsAudioStarted] = useState(false);
     const [showGemini, setShowGemini] = useState(false);
+    const [geminiToken, setGeminiToken] =  useState('');
 
     const userAdded = (payload) => {
         console.log(payload[0].userId + ' joined the session');
@@ -48,9 +49,6 @@ const CustomUIpage = () => {
       setVideoLoader(true);
       console.log("attaching current user video to the DOM")
       let cameras = stream.getCameraList();
-
-      console.log("CAMS", cameras);
-
       let cameraId = (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) ? 'user' : cameras.find( (camera) => {
           return camera.label === "FaceTime HD Camera";
       }).cameraId; 
@@ -152,6 +150,7 @@ const CustomUIpage = () => {
         //Set Session State
         setClient(zoomClient);
         setStream(zoomStream);
+        setGeminiToken(config.geminiToken)
         setCurrentUser(zoomClient.getCurrentUserInfo());
         setLoader(loader => !loader);
     };
@@ -208,7 +207,7 @@ const CustomUIpage = () => {
                     leaveSession={leaveSession} 
                     endSession={endSession}/></div> 
                    
-                    { showGemini && <GeminiAgent muteZoomAudio={muteAudio} /> }
+                    { showGemini && <GeminiAgent muteZoomAudio={muteAudio} geminiToken={geminiToken}/> }
                   </div>
          }
         </React.Fragment>

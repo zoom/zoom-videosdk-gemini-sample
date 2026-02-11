@@ -1,6 +1,5 @@
 import React from 'react';
 import StartPage from "./components/Startpage";
-import MeetingsPage from "./components/Meetingspage";
 import CustomUIPage from './components/CustomUIpage';
 import CurrentUserContextProvider from './components/context/CurrentUserContext';
 
@@ -19,7 +18,6 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Navigate replace to="/startpage" />} />
             <Route path="/startpage" element={<StartPage />} />
-            <Route path="/meetingspage" element={<MeetingsPage />} />
             <Route path="/customuipage" element={<CustomUIPage />} />
           </Routes>
           </CurrentUserContextProvider>

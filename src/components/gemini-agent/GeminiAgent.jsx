@@ -11,7 +11,7 @@ import Toastify from 'toastify-js';
 import "toastify-js/src/toastify.css";
 import ChatBubble from "./ChatBubble.jsx";
 
-const GeminiAgent = ({ muteZoomAudio }) => {
+const GeminiAgent = ({ muteZoomAudio, geminiToken }) => {
     const [loading, setLoading] = useState(true);
     const [processing, setProcessing] = useState(false);
     const [disableBtn, setDisableBtn] = useState(false);
@@ -23,7 +23,8 @@ const GeminiAgent = ({ muteZoomAudio }) => {
     const [audioReady, setAudioReady] = useState(false);
     const [session, setSession] = useState(null);
     const [timeoutID, setTimeoutID] = useState("");
-    const [responseLog, setResponseLog] = useState(["Gemini Live API Ready!", ]);
+    const [transcriptBuffer, setTranscriptBuffer] = useState("");
+    const [responseLog, setResponseLog] = useState([{id: 1, text: "Gemini Live API Ready!" }]);
     const nodeRef = useRef(null);
     const sessionRef = useRef(null);
     const forceUpdate = useForceUpdate();
@@ -80,11 +81,15 @@ const GeminiAgent = ({ muteZoomAudio }) => {
             }
     };
     const initSession = async () => {
-        const gemini = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
+        const gemini = new GoogleGenAI({apiKey: geminiToken, httpOptions: { apiVersion: 'v1alpha' }});
         const model = 'gemini-2.5-flash-native-audio-preview-12-2025';
         const config = {
             responseModalities: [Modality.AUDIO],
-            outputAudioTranscription: {}
+            outputAudioTranscription: {},
+            systemInstruction: "You are a helpful and friendly AI assistant.",
+            speechConfig: {
+                voiceConfig: {prebuiltVoiceConfig: {voiceName: 'Orus'}},
+            },
         };
 
         try {
@@ -95,8 +100,6 @@ const GeminiAgent = ({ muteZoomAudio }) => {
                     onopen: () => console.log('Connected to Gemini Live API'),
                     onmessage: (message) => {
                         if ('serverContent' in message) {
-                            console.log(message)
-
                             if ('modelTurn' in message.serverContent) {
                                 const response = message.serverContent.modelTurn.parts[0];
                                 if (response) {
@@ -108,8 +111,7 @@ const GeminiAgent = ({ muteZoomAudio }) => {
                                 }
                             }
                             else if ('outputTranscription' in message.serverContent) {
-                                console.log("OUTPUT TRANSCRIPTION", message.serverContent.outputTranscription);
-                                // setResponseLog(prevResponses => [...prevResponses, message.serverContent.outputTranscription.text]);
+                                setTranscriptBuffer(prevText => prevText + message.serverContent.outputTranscription.text);
                             }
                             else if ('generationComplete' in message.serverContent) {
                                 const el = document.getElementById("chat-window");
@@ -123,13 +125,6 @@ const GeminiAgent = ({ muteZoomAudio }) => {
                     },
                     onclose: (e) => {
                         console.error('Close:' + e.reason);
-                    },
-                },
-                config: {
-                    responseModalities: [Modality.AUDIO],
-                    systemInstruction: "You are a helpful and friendly AI assistant.",
-                    speechConfig: {
-                        voiceConfig: {prebuiltVoiceConfig: {voiceName: 'Orus'}},
                     },
                 },
             });
@@ -157,6 +152,10 @@ const GeminiAgent = ({ muteZoomAudio }) => {
         sessionRef.current = session;
     }, [session]);
 
+    useEffect(()=>{
+        setTranscriptBuffer("");
+    },[responseLog])
+
     useEffect(() => {
         initSession();
         displayToast("Click top of popup to drag");
@@ -175,6 +174,7 @@ const GeminiAgent = ({ muteZoomAudio }) => {
             setResponseMimeType("");
             setProcessing(false);
             setDisableBtn(false);
+            setResponseLog(prevResponses => [...prevResponses, {id: (prevResponses.length + 1).toString(), text: transcriptBuffer}]);
         }
     }, [audioReady]);
 
@@ -193,8 +193,8 @@ const GeminiAgent = ({ muteZoomAudio }) => {
                             {
                                 responseLog.map(log => (
                                     <ChatBubble 
-                                        key={Math.floor(Math.random() * 100)}
-                                        message={log}/>
+                                        key={log.id}
+                                        message={log.text}/>
                                     ))
                             }
                         </div>

@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BallTriangle } from "react-loader-spinner";
-import { generateSignature } from "../utils.ts";
-
-const sdkKey = process.env.ZOOM_SDK_KEY;
-const sdkSecret = process.env.ZOOM_SDK_SECRET;
 
 const StartPage = () => { 
   
   const navigate = useNavigate();
   const [name, setName] = useState(`Tester-${Math.floor(Math.random()*(999-100+1)+100)}`);
-  const [topic, setTopic] = useState('testSession1');
+  const [topic, setTopic] = useState('testSession');
   const [passcode, setPasscode] = useState('123');
   const [loader, setLoader] = useState(false);
   const [disable, setDisable] = useState(false);
@@ -21,24 +17,28 @@ const StartPage = () => {
 
   const joinSession = async () => {
 
-    if (name === "" || topic === "")true,
+    const videoSDKJWT = prompt("Please enter your JWT Token");
+    const geminiToken = prompt("Please enter your Gemini Token");
+
+    if (!videoSDKJWT || !geminiToken) {
+      alert("JWT Token and Gemini Ephemeral Token is required for this application");
+      return;
+    }
+
+    if (name === "" || topic === "") true,
 
     setDisable(disable => !disable);
     setLoader(loader => !loader);
 
     let config = {
-      videoSDKJWT: '',
-      sessionName: '',
-      userName: '',
-      sessionPasscode: '',
+      videoSDKJWT,
+      geminiToken,
+      sessionName: topic,
+      userName: name,
+      sessionPasscode: passcode,
       sessionIdleTimeoutMins: 40,
       debug: true,
      };
-
-    config.videoSDKJWT = generateSignature(topic, 1, sdkKey, sdkSecret);
-    config.userName = name;
-    config.sessionName = topic;
-    config.sessionPasscode = passcode;
 
     console.log("Session Config", { config } )
     
