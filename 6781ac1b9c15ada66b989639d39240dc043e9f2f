@@ -1,0 +1,33 @@
+src/components/gemini-agent/GeminiAgent.jsx
+  cd68583e24abb3ae 19,57,62,71
+src/components/Startpage.jsx
+  cd68583e24abb3ae 20-23,43
+src/components/features/Video.jsx
+  cd68583e24abb3ae 1,7,123-129,131-134
+src/components/context/CurrentUserContext.jsx
+  cd68583e24abb3ae 1
+src/components/CustomUIpage.jsx
+  cd68583e24abb3ae 52,195-198,200
+src/components/features/Controls.jsx
+  cd68583e24abb3ae 3,5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "6781ac1b9c15ada66b989639d39240dc043e9f2f",
+  "prompts": {
+    "cd68583e24abb3ae": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7e757bba-7c8c-4525-a9aa-c8f943c778a2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "ekaansh <ekaansh68@gmail.com>",
+      "messages": [],
+      "total_additions": 82,
+      "total_deletions": 171,
+      "accepted_lines": 34,
+      "overriden_lines": 2
+    }
+  }
+}
