@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BallTriangle } from "react-loader-spinner";
-import useForceUpdate from "../context/ForceUpdate";
 import "./GeminiAgent.css"
 import { GoogleGenAI, Modality } from '@google/genai';
 import { MediaRecorder } from 'extendable-media-recorder';
@@ -17,7 +16,7 @@ const GeminiAgent = ({ muteZoomAudio, geminiToken }) => {
     const [disableBtn, setDisableBtn] = useState(false);
     const [recorder, setRecorder] = useState(null);
     const [record, setRecord] = useState(false);
-    const [audioChunks, setAudioChunks] = useState([]);
+    const audioChunksRef = useRef([]);
     const [responseAudioString, setResponseAudioString] = useState("");
     const [responseMimeType, setResponseMimeType] = useState("");
     const [audioReady, setAudioReady] = useState(false);
@@ -27,7 +26,6 @@ const GeminiAgent = ({ muteZoomAudio, geminiToken }) => {
     const [responseLog, setResponseLog] = useState([{id: 1, text: "Gemini Live API Ready!" }]);
     const nodeRef = useRef(null);
     const sessionRef = useRef(null);
-    const forceUpdate = useForceUpdate();
 
     const displayToast = (message) => {
         Toastify({
@@ -56,22 +54,21 @@ const GeminiAgent = ({ muteZoomAudio, geminiToken }) => {
 
                 mediaRecorder.addEventListener('dataavailable', event => {
                     if (event.data.size > 0) {
-                        audioChunks.push(event.data);
-                        setAudioChunks([audioChunks]);
+                        audioChunksRef.current.push(event.data);
                     }
                 });
 
                 mediaRecorder.addEventListener('stop', async () => {
-                    const webmBlob = new Blob(audioChunks, { type: 'audio/webm;codecs=opus' });
+                    const webmBlob = new Blob(audioChunksRef.current, { type: 'audio/webm;codecs=opus' });
                     const pcmBlob = await convertWebMToPCM(webmBlob);
 
-                    session.sendRealtimeInput({ 
+                    session.sendRealtimeInput({
                         audio: {
                             data: await blobToBase64(pcmBlob),
                             mimeType: "audio/pcm;rate=48000"
                         }
                     })
-                    setAudioChunks([]);
+                    audioChunksRef.current = [];
                 }); 
                 setRecorder(()=>mediaRecorder);
 

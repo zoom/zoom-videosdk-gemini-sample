@@ -12,18 +12,15 @@ import {
 
 const App = () => {
     return (
-        <React.Fragment>
         <Router>
-        <CurrentUserContextProvider>
-          <Routes>
-            <Route path="/" element={<Navigate replace to="/startpage" />} />
-            <Route path="/startpage" element={<StartPage />} />
-            <Route path="/customuipage" element={<CustomUIPage />} />
-          </Routes>
+          <CurrentUserContextProvider>
+            <Routes>
+              <Route path="/" element={<Navigate replace to="/startpage" />} />
+              <Route path="/startpage" element={<StartPage />} />
+              <Route path="/customuipage" element={<CustomUIPage />} />
+            </Routes>
           </CurrentUserContextProvider>
         </Router>
-        
-    </React.Fragment>
     )
 }
 

@@ -1,10 +1,8 @@
-import React, { useEffect} from "react";
+import React from "react";
 import { BallTriangle } from "react-loader-spinner";
-import { FiMicOff } from "react-icons/fi";
-import { FiMic } from "react-icons/fi";
+import { FiMicOff, FiMic } from "react-icons/fi";
 import { GoMute } from "react-icons/go";
-import { IoVideocamOutline } from "react-icons/io5";
-import { IoVideocamOffOutline } from "react-icons/io5";
+import { IoVideocamOutline, IoVideocamOffOutline } from "react-icons/io5";
 import { CgClose } from "react-icons/cg";
 import { RiGeminiLine } from "react-icons/ri";
 import Popup from 'reactjs-popup';
@@ -17,24 +15,18 @@ const Controls = ({ client, stream, videoLoader, startMyVideo, stopMyVideo, isVi
     const { currentUser } = CurrentUser();
 
     const toggleVideo = () => {
-      console.log(isVideoOn);
         if (client.getCurrentUserInfo().bVideoOn) stopMyVideo();
         else startMyVideo();
-    }; 
-
-    useEffect(() => {}, []);
+    };
 
     if (!client && !stream) {
         return (
-            <React.Fragment>
-              <div className="flex items-center w-48 m-auto mt-96">
-               <BallTriangle  height={200} width={200} radius={5} color="#0096FF" ariaLabel="ball-triangle-loading" wrapperClass={{}} wrapperStyle="" visible={true}/>
-              </div>
-            </React.Fragment>
+            <div className="flex items-center w-48 m-auto mt-96">
+              <BallTriangle  height={200} width={200} radius={5} color="#0096FF" ariaLabel="ball-triangle-loading" wrapperClass={{}} wrapperStyle="" visible={true}/>
+            </div>
           );
     } else {
         return (
-            <React.Fragment>
               <div className="ctrl-btn-container">
                 <button className="ctrl-btn items-center justify-center h-12 border-solid rounded-lg mt-2 bg-sky-600 w-1/2 text-white hover:bg-sky-700 active:bg-sky-800" 
                    type="button" 
@@ -90,10 +82,7 @@ const Controls = ({ client, stream, videoLoader, startMyVideo, stopMyVideo, isVi
                          </button>}
                       </div>
                 </Popup>
-
-                
               </div>
-            </React.Fragment>
           );
     }
 };
