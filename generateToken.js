@@ -11,28 +11,30 @@ const sdkKey = process.env.ZOOM_SDK_KEY;
 const sdkSecret = process.env.ZOOM_SDK_SECRET;
 const geminiKey = process.env.GEMINI_API_KEY;
 
-async function generateGeminiEphemeralToken(){
+async function generateGeminiEphemeralToken() {
 
-  const client = new GoogleGenAI({apiKey: geminiKey}); 
+	const client = new GoogleGenAI({ apiKey: geminiKey });
 
-  const expireTime = new Date(Date.now() + 30 * 60 * 1000).toISOString();  
-  const newSessionExpireTime = new Date(Date.now() + 1 * 300 * 1000).toISOString();
+	// Increase expiration times
+	const expireTime = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString();  // 2 hours
+	const newSessionExpireTime = new Date(Date.now() + 30 * 60 * 1000).toISOString(); // 30 minutes
 
-  try {
-    const token = await client.authTokens.create({
-      config: {
-        uses: 1, 
-        expireTime: expireTime, 
-        newSessionExpireTime: newSessionExpireTime, 
-        httpOptions: { apiVersion: 'v1alpha' }, 
-      },
-    });
-    console.log("Gemini Ephemeral Token Name:", token.name);
-    return token.name; 
-  } catch (error) {
-    console.error("Error creating ephemeral token:", error);
-    throw error;
-  }
+
+	try {
+		const token = await client.authTokens.create({
+			config: {
+				uses: 1,
+				expireTime: expireTime,
+				newSessionExpireTime: newSessionExpireTime,
+				httpOptions: { apiVersion: 'v1alpha' },
+			},
+		});
+		console.log("Gemini Ephemeral Token Name:", token.name);
+		return token.name;
+	} catch (error) {
+		console.error("Error creating ephemeral token:", error);
+		throw error;
+	}
 }
 
 function validateEnvironment() {
@@ -132,7 +134,7 @@ program
 	.option("-q, --quiet", "Output only the token, no color or extra info")
 	.option("-c, --copy-to-clipboard", "Copy the token to clipboard")
 	.showHelpAfterError()
-	.action( async (sessionName, options) => {
+	.action(async (sessionName, options) => {
 		try {
 			validateEnvironment();
 			validateSessionName(sessionName);
@@ -157,7 +159,7 @@ program
 			}
 
 			const token = generateSignature(sessionName, role, expiresInHours);
-            const geminiToken = await generateGeminiEphemeralToken();
+			const geminiToken = await generateGeminiEphemeralToken();
 			if (options.quiet) {
 				console.log(token);
 			} else {
@@ -168,7 +170,7 @@ program
 					` ${chalk.white(`${expiresInHours} hour(s)`)}`,
 				);
 				console.log(chalk.dim("\nToken:\n") + chalk.cyan(token));
-                console.log(chalk.dim("\nGemini Token:\n") + chalk.cyan(geminiToken));
+				console.log(chalk.dim("\nGemini Token:\n") + chalk.cyan(geminiToken));
 			}
 			if (options.copyToClipboard) {
 				try {

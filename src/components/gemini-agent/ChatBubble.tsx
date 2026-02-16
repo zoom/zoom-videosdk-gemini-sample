@@ -1,7 +1,6 @@
-import React from 'react';
-import './ChatBubble.css'; // Link the CSS file
+import './ChatBubble.css';
 
-const ChatBubble = ({ message }) => {
+const ChatBubble = ({ message }: { message: string }) => {
   return (
     <div className="bubble-container other-bubble">
       <div className="bubble">

@@ -1,7 +1,0 @@
-.vsdk-container {
-    display: flex;
-    transform: translateY(20%);
-    flex-direction: column;
-    justify-content:center;
-    align-items: center;
-}
