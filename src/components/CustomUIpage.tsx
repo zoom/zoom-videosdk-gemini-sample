@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { BallTriangle, Circles } from "react-loader-spinner";
+import { Circles } from "react-loader-spinner";
 import ZoomVideo from "@zoom/videosdk";
 import GeminiAgent from "./gemini-agent/GeminiAgent";
 import Video from "./features/Video";

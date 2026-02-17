@@ -68,12 +68,6 @@ const Controls = ({ client, toggleGemini, leaveSession, isMuted, setIsMuted }: C
     setIsMuted(curr.muted ?? false);
   };
 
-  const disconnectAudio = async () => {
-    const stream = client.getMediaStream();
-    stream.stopAudio();
-    setIsAudioStarted(false);
-  };
-
   const toggleAudio = async () => {
     const stream = client.getMediaStream();
     (await client.getCurrentUserInfo().muted) ? await stream.unmuteAudio() : await stream.muteAudio();
