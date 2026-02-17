@@ -22,7 +22,7 @@ To get started, clone the repo:
 
    ```
    ZOOM_SDK_KEY=
-   OOM_SDK_SECRET=
+   ZOOM_SDK_SECRET=
    GEMINI_API_KEY=
    ```
 
