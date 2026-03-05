@@ -87,13 +87,10 @@ const CustomUIpage = () => {
     if (curr.audio) {
       await stream.muteAudio();
       setIsMuted(true);
-    } else {
-      // setIsAudioStarted(false);
-    }
+    } 
   };
 
   useEffect(() => {
-    console.log('Joining Meeting', location.state);
     if (location.state) {
       console.log('Joining Meeting');
       joinMeeting(location.state);

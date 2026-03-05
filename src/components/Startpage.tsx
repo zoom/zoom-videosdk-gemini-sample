@@ -26,8 +26,6 @@ const StartPage = () => {
       debug: true,
     };
 
-    console.log("Session Config", { config })
-
     navigate("/customuipage", { state: config });
   }
 
