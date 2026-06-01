@@ -73,10 +73,11 @@ const GeminiAgent = ({ muteZoomAudio, geminiToken }: GeminiAgentProps) => {
 
                     currentSession.sendRealtimeInput({ activityStart: {} });
                     currentSession.sendRealtimeInput({
-                        audio: {
-                            data: base64Audio,
-                            mimeType: "audio/pcm;rate=48000"
-                        }
+                        // audio: {
+                        //     data: base64Audio,
+                        //     mimeType: "audio/pcm;rate=48000"
+                        // }
+                        text: "what is the weather like in Lawrenceville, GA today?"
                     });
                     currentSession.sendRealtimeInput({ activityEnd: {} });
                     audioChunksRef.current = [];

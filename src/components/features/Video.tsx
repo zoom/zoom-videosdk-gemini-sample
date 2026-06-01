@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { BallTriangle } from "react-loader-spinner";
 import ZoomVideo, { VideoQuality } from "@zoom/videosdk";
-import "./Video.css"
+import "./Video.css";
 
 declare module "react" {
     namespace JSX {
