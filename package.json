@@ -54,7 +54,7 @@
   "dependencies": {
     "@google/genai": "^1.36.0",
     "@radix-ui/themes": "^3.2.1",
-    "@zoom/videosdk": "^2.3.12",
+    "@zoom/videosdk": "^2.4.5",
     "extendable-media-recorder": "^9.2.34",
     "postcss-loader": "^7.3.3",
     "react-draggable": "^4.5.0",
